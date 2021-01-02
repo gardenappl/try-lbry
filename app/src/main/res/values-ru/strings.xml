@@ -8,4 +8,5 @@
     <string name="dialog_found_youtube_video">Это видео доступно на LBRY!</string>
     <string name="dialog_found_youtube_channel">Этот канал доступен на LBRY!</string>
     <string name="open_youtube">Выберите приложение для YouTube:</string>
+    <string name="dialog_error">Ошибка во время проверки наличия LBRY</string>
 </resources>

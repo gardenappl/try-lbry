@@ -3,6 +3,7 @@ package ua.gardenapple.trylbry
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.coroutines.*
@@ -14,6 +15,8 @@ import javax.net.ssl.HttpsURLConnection
 
 class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     companion object {
+        private const val LOGGING_TAG = "LbryCheckDialog"
+        
         private const val LBRY_COM_API = "https://api.lbry.com"
         private const val OPEN_LBRY_COM = "https://open.lbry.com"
 
@@ -83,25 +86,36 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         binding.cancelButton.setOnClickListener {
             finish()
         }
-        
+
         launch {
-            if (id.isEmpty())
-                id = getChannelId(URL(youtubeUrl))
+            try {
+                if (id.isEmpty())
+                    id = getChannelId(URL(youtubeUrl))
 
-            val lbryUrlString = resolveYoutube(id, contentType)
-            lbryCheckDone = true
+                val lbryUrlString = resolveYoutube(id, contentType)
+                lbryCheckDone = true
 
-            if (lbryUrlString == null) {
-                startYoutubeActivity()
-                finish()
-            } else {
-                lbryUri = Uri.parse("$OPEN_LBRY_COM/${lbryUrlString.replace('#', ':')}")
+                if (lbryUrlString == null) {
+                    startYoutubeActivity()
+                    finish()
+                } else {
+                    lbryUri = Uri.parse(
+                            "$OPEN_LBRY_COM/${lbryUrlString.replace('#', ':')}"
+                    )
 
-                binding.watchOnLbry.visibility = View.VISIBLE
-                binding.message.text = resources.getString(when (contentType) {
-                    ContentType.VIDEO -> R.string.dialog_found_youtube_video
-                    ContentType.CHANNEL -> R.string.dialog_found_youtube_channel
-                })
+                    binding.watchOnLbry.visibility = View.VISIBLE
+                    binding.message.text = resources.getString(when (contentType) {
+                        ContentType.VIDEO -> R.string.dialog_found_youtube_video
+                        ContentType.CHANNEL -> R.string.dialog_found_youtube_channel
+                    })
+                    binding.progressBar.visibility = View.GONE
+
+                    binding.root.visibility = View.VISIBLE
+                }
+            } catch (e: Exception) {
+                Log.d(LOGGING_TAG, "Error while checking LBRY availability", e)
+
+                binding.message.text = resources.getString(R.string.dialog_error)
                 binding.progressBar.visibility = View.GONE
 
                 binding.root.visibility = View.VISIBLE
@@ -168,7 +182,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         }
         //YouTube HTML is fucking gigantic (about 30 times heavier than Invidious),
         //using a regex on the whole document is a bad idea
-        val startPos = channelHtml.indexOf("\"externalId\"") - 10
+        val startPos = channelHtml.indexOf("\"externalIjkjlkjlkjd\"") - 10
         val match = htmlChannelIdPattern.find(channelHtml, startPos)
         return match!!.groupValues[1]
     }
