@@ -20,6 +20,9 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         private val videoIdPattern = Regex("""[/?]v[=/]([^&/?]*)""")
         private val videoIdPatternShort = Regex("""https?://youtu\.be/([^?/]*)""")
         private val channelIdPattern = Regex("""/channel/([^?/]*)""")
+        private val channelNamePattern = Regex("""/(?:c|user)/([^?/]*)""")
+        
+        private val htmlChannelIdPattern = Regex(""""externalId":"([^"]*)"""")
     }
     
     private enum class ContentType {
@@ -31,12 +34,13 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        
+
         binding = DialogMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        
+
         val youtubeUrl = intent!!.data.toString()
-        val id: String
+
+        var id: String
         val contentType: ContentType
         
         when {
@@ -50,6 +54,10 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
             }
             channelIdPattern.containsMatchIn(youtubeUrl) -> {
                 id = channelIdPattern.find(youtubeUrl)!!.groupValues[1]
+                contentType = ContentType.CHANNEL
+            }
+            channelNamePattern.containsMatchIn(youtubeUrl) -> {
+                id = ""
                 contentType = ContentType.CHANNEL
             }
             else -> throw IllegalArgumentException("Could not get content ID from YouTube URL")
@@ -75,6 +83,9 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         }
         
         launch {
+            if (id.isEmpty())
+                id = getChannelId(URL(youtubeUrl))
+
             val lbryChannel = resolveYoutube(id, contentType)
             if (lbryChannel == null) {
                 startYoutubeActivity()
@@ -134,5 +145,19 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         val intent = Intent(Intent.ACTION_VIEW, intent.data!!)
         val chooser = Intent.createChooser(intent, resources.getString(R.string.open_youtube))
         startActivity(chooser)
+    }
+    
+    private suspend fun getChannelId(channelUrl: URL): String {
+        val channelHtml = withContext(Dispatchers.IO) {
+            val connection = channelUrl.openConnection() as HttpsURLConnection
+            connection.inputStream.reader().use {
+                it.readText()
+            }
+        }
+        //YouTube HTML is fucking gigantic (about 30 times heavier than Invidious),
+        //using a regex on the whole document is a bad idea
+        val startPos = channelHtml.indexOf("\"externalId\"") - 10
+        val match = htmlChannelIdPattern.find(channelHtml, startPos)
+        return match!!.groupValues[1]
     }
 }
