@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Попробовать LBRY</string>
+    <string name="dialog_choice_youtube">Смотреть на YouTube</string>
+    <string name="dialog_choice_lbry">Смотреть на LBRY</string>
+    <string name="dialog_checking_youtube_video">Посмотрим, есть ли это видео на LBRY…</string>
+    <string name="dialog_checking_youtube_channel">Посмотрим, есть ли этот канал на LBRY…</string>
+    <string name="dialog_found_youtube_video">Это видео доступно на LBRY!</string>
+    <string name="dialog_found_youtube_channel">Этот канал доступен на LBRY!</string>
+    <string name="open_youtube">Выберите приложение для YouTube:</string>
+</resources>

@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">Try LBRY</string>
+    <string name="dialog_choice_youtube">Watch on YouTube</string>
+    <string name="dialog_choice_lbry">Watch on LBRY</string>
+    <string name="dialog_checking_youtube_video">Let\'s see if this video is available on LBRY…</string>
+    <string name="dialog_checking_youtube_channel">Let\'s see if this channel is available on LBRY…</string>
+    <string name="dialog_found_youtube_video">This video is available on LBRY!</string>
+    <string name="dialog_found_youtube_channel">This channel is available on LBRY!</string>
+    <string name="open_youtube">Select app for YouTube:</string>
 </resources>
