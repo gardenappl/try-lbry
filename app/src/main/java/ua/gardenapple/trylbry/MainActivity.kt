@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.util.TypedValue
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
@@ -198,7 +199,12 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     
     private fun showDialog() {
         window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
-        window.setDimAmount(0.75f)
+
+        //Not sure why I have to manually set the dim amount
+        val dimAmount = TypedValue()
+        theme.resolveAttribute(android.R.attr.backgroundDimAmount, dimAmount, true)
+        window.setDimAmount(dimAmount.float)
+
         binding.root.visibility = View.VISIBLE
     }
 }
