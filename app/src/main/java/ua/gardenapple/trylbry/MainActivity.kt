@@ -5,12 +5,15 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.Window
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.coroutines.*
 import org.json.JSONObject
 import ua.gardenapple.trylbry.databinding.DialogMainBinding
 import java.net.URL
 import java.net.URLEncoder
+import java.net.UnknownHostException
 import javax.net.ssl.HttpsURLConnection
 
 class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
@@ -111,22 +114,25 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                     })
                     binding.progressBar.visibility = View.GONE
 
-                    binding.root.visibility = View.VISIBLE
+                    showDialog()
                 }
+            } catch (e: UnknownHostException) {
+                //no internet
+                startYoutubeActivity()
+                finish()
             } catch (e: Exception) {
-                Log.e(LOGGING_TAG, "Error while checking LBRY availability", e)
+                Log.e(LOGGING_TAG, "Error while checking LBRY availability")
+                Log.e(LOGGING_TAG, e.localizedMessage)
+                Log.e(LOGGING_TAG, e.stackTraceToString())
 
-                binding.message.text = resources.getString(R.string.dialog_error)
-                binding.progressBar.visibility = View.GONE
-
-                binding.root.visibility = View.VISIBLE
+                showDialog()
             }
         }
 
         launch {
             delay(1000)
             if (!lbryCheckDone)
-                binding.root.visibility = View.VISIBLE
+                showDialog()
         }
     }
 
@@ -168,12 +174,6 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
             resultJson.getString(id)
     }
     
-    private fun startYoutubeActivity() {
-        val intent = Intent(Intent.ACTION_VIEW, intent.data!!)
-        val chooser = Intent.createChooser(intent, resources.getString(R.string.open_youtube))
-        startActivity(chooser)
-    }
-    
     private suspend fun getChannelId(channelUrl: URL): String {
         val channelHtml = withContext(Dispatchers.IO) {
             val connection = channelUrl.openConnection() as HttpsURLConnection
@@ -188,5 +188,17 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
             startPos = channelHtml.indexOf("\\x22externalId\\x22")
         val match = htmlChannelIdPattern.find(channelHtml, startPos)
         return match!!.groupValues[1]
+    }
+
+    private fun startYoutubeActivity() {
+        val intent = Intent(Intent.ACTION_VIEW, intent.data!!)
+        val chooser = Intent.createChooser(intent, resources.getString(R.string.open_youtube))
+        startActivity(chooser)
+    }
+    
+    private fun showDialog() {
+        window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+        window.setDimAmount(0.75f)
+        binding.root.visibility = View.VISIBLE
     }
 }
