@@ -113,7 +113,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                     binding.root.visibility = View.VISIBLE
                 }
             } catch (e: Exception) {
-                Log.d(LOGGING_TAG, "Error while checking LBRY availability", e)
+                Log.e(LOGGING_TAG, "Error while checking LBRY availability", e)
 
                 binding.message.text = resources.getString(R.string.dialog_error)
                 binding.progressBar.visibility = View.GONE
@@ -182,7 +182,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         }
         //YouTube HTML is fucking gigantic (about 30 times heavier than Invidious),
         //using a regex on the whole document is a bad idea
-        val startPos = channelHtml.indexOf("\"externalIjkjlkjlkjd\"") - 10
+        val startPos = channelHtml.indexOf("\"externalId\"") - 10
         val match = htmlChannelIdPattern.find(channelHtml, startPos)
         return match!!.groupValues[1]
     }
