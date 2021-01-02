@@ -3,5 +3,6 @@
     <style name="Theme.TryLBRY" parent="Theme.AppCompat.DayNight.Dialog">
         <!-- LBRY color. -->
         <item name="colorPrimary">@color/lbryLight</item>
+        <item name="colorSecondary">@color/youtube</item>
     </style>
 </resources>

@@ -1,28 +1,15 @@
 package ua.gardenapple.trylbry
 
-import android.app.Dialog
-import android.content.DialogInterface
 import android.content.Intent
-import android.content.ServiceConnection
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.widget.Button
-import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
-import androidx.core.app.ShareCompat
-import androidx.fragment.app.DialogFragment
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.coroutines.*
 import org.json.JSONObject
-import org.json.JSONTokener
 import ua.gardenapple.trylbry.databinding.DialogMainBinding
-import java.io.BufferedInputStream
 import java.net.URL
 import java.net.URLEncoder
-import java.nio.charset.StandardCharsets
-import java.util.concurrent.Executor
 import javax.net.ssl.HttpsURLConnection
 
 class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
@@ -94,6 +81,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                 finish()
             } else {
                 lbryUri = Uri.parse("$OPEN_LBRY_COM/${lbryChannel.replace('#', ':')}")
+
                 binding.watchOnLbry.visibility = View.VISIBLE
                 binding.message.text = resources.getString(when (contentType) {
                     ContentType.VIDEO -> R.string.dialog_found_youtube_video
