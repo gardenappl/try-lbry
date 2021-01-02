@@ -25,7 +25,8 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         private val channelIdPattern = Regex("""/channel/([^?/]*)""")
         private val channelNamePattern = Regex("""/(?:c|user)/([^?/]*)""")
         
-        private val htmlChannelIdPattern = Regex(""""externalId":"([^"]*)"""")
+        private val htmlChannelIdPattern =
+                Regex("""(?:"|\\x22)externalId(?:"|\\x22):(?:"|\\x22)([^"]*)(?:"|x22)""")
     }
     
     private enum class ContentType {
@@ -182,7 +183,9 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         }
         //YouTube HTML is fucking gigantic (about 30 times heavier than Invidious),
         //using a regex on the whole document is a bad idea
-        val startPos = channelHtml.indexOf("\"externalId\"") - 10
+        var startPos = channelHtml.indexOf("\"externalId\"") - 10
+        if (startPos < 0)
+            startPos = channelHtml.indexOf("\\x22externalId\\x22")
         val match = htmlChannelIdPattern.find(channelHtml, startPos)
         return match!!.groupValues[1]
     }
