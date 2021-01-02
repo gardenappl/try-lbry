@@ -9,4 +9,5 @@
     <string name="dialog_found_youtube_channel">Цей канал доступний на LBRY!</string>
     <string name="open_youtube">Оберіть додаток для YouTube:</string>
     <string name="dialog_error">Помилка під час перевірки доступності на LBRY</string>
+    <string name="dialog_error_wrong_url">Це не є посиланням на відео чи канал YouTube:\n%s</string>
 </resources>

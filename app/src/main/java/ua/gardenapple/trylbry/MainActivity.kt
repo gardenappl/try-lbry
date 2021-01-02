@@ -8,6 +8,7 @@ import android.util.TypedValue
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
+import android.webkit.URLUtil
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.coroutines.*
 import org.json.JSONObject
@@ -48,29 +49,53 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         binding = DialogMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val youtubeUrl = intent!!.data.toString()
+        binding.cancelButton.setOnClickListener {
+            finish()
+        }
+
+        val youtubeUri: Uri
+        val youtubeUrlString: String
+
+        when (intent.action) {
+            Intent.ACTION_SEND -> {
+                youtubeUrlString = intent.getStringExtra(Intent.EXTRA_TEXT)!!.trim()
+                if (!URLUtil.isValidUrl(youtubeUrlString)) {
+                    showDialogInvalidUrl(youtubeUrlString)
+                    return
+                }
+                youtubeUri = Uri.parse(youtubeUrlString)
+            }
+            Intent.ACTION_VIEW -> {
+                youtubeUri = intent.data!!
+                youtubeUrlString = youtubeUri.toString()
+            }
+            else -> throw IllegalArgumentException("Can't handle intent")
+        }
 
         var id: String
         val contentType: ContentType
         
         when {
-            videoIdPattern.containsMatchIn(youtubeUrl) -> {
-                id = videoIdPattern.find(youtubeUrl)!!.groupValues[1]
+            videoIdPattern.containsMatchIn(youtubeUrlString) -> {
+                id = videoIdPattern.find(youtubeUrlString)!!.groupValues[1]
                 contentType = ContentType.VIDEO
             }
-            videoIdPatternShort.containsMatchIn(youtubeUrl) -> {
-                id = videoIdPatternShort.find(youtubeUrl)!!.groupValues[1]
+            videoIdPatternShort.containsMatchIn(youtubeUrlString) -> {
+                id = videoIdPatternShort.find(youtubeUrlString)!!.groupValues[1]
                 contentType = ContentType.VIDEO
             }
-            channelIdPattern.containsMatchIn(youtubeUrl) -> {
-                id = channelIdPattern.find(youtubeUrl)!!.groupValues[1]
+            channelIdPattern.containsMatchIn(youtubeUrlString) -> {
+                id = channelIdPattern.find(youtubeUrlString)!!.groupValues[1]
                 contentType = ContentType.CHANNEL
             }
-            channelNamePattern.containsMatchIn(youtubeUrl) -> {
+            channelNamePattern.containsMatchIn(youtubeUrlString) -> {
                 id = ""
                 contentType = ContentType.CHANNEL
             }
-            else -> throw IllegalArgumentException("Could not get content ID from YouTube URL")
+            else -> {
+                showDialogInvalidUrl(youtubeUrlString)
+                return
+            }
         }
 
         binding.message.text = resources.getString(
@@ -85,23 +110,20 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
             finish()
         }
         binding.watchOnYoutube.setOnClickListener {
-            startYoutubeActivity()
-            finish()
-        }
-        binding.cancelButton.setOnClickListener {
+            startYoutubeActivity(youtubeUri)
             finish()
         }
 
         launch {
             try {
                 if (id.isEmpty())
-                    id = getChannelId(URL(youtubeUrl))
+                    id = getChannelId(URL(youtubeUrlString))
 
                 val lbryUrlString = resolveYoutube(id, contentType)
                 lbryCheckDone = true
 
                 if (lbryUrlString == null) {
-                    startYoutubeActivity()
+                    startYoutubeActivity(youtubeUri)
                     finish()
                 } else {
                     lbryUri = Uri.parse(
@@ -117,21 +139,24 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
                     showDialog()
                 }
-            } catch (e: UnknownHostException) {
-                //no internet
-                startYoutubeActivity()
-                finish()
+//            } catch (e: UnknownHostException) {
+//                //no internet, let YouTube app show an error
+//                startYoutubeActivity(youtubeUri)
+//                finish()
             } catch (e: Exception) {
                 Log.e(LOGGING_TAG, "Error while checking LBRY availability")
                 Log.e(LOGGING_TAG, e.localizedMessage)
                 Log.e(LOGGING_TAG, e.stackTraceToString())
+
+                binding.message.text = resources.getString(R.string.dialog_error)
+                binding.progressBar.visibility = View.GONE
 
                 showDialog()
             }
         }
 
         launch {
-            delay(1000)
+//            delay(1000)
             if (!lbryCheckDone)
                 showDialog()
         }
@@ -191,8 +216,8 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         return match!!.groupValues[1]
     }
 
-    private fun startYoutubeActivity() {
-        val intent = Intent(Intent.ACTION_VIEW, intent.data!!)
+    private fun startYoutubeActivity(youtubeUrl: Uri) {
+        val intent = Intent(Intent.ACTION_VIEW, youtubeUrl)
         val chooser = Intent.createChooser(intent, resources.getString(R.string.open_youtube))
         startActivity(chooser)
     }
@@ -206,5 +231,13 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         window.setDimAmount(dimAmount.float)
 
         binding.root.visibility = View.VISIBLE
+    }
+    
+    private fun showDialogInvalidUrl(urlString: String) {
+        binding.message.text = resources.getString(R.string.dialog_error_wrong_url, urlString)
+        binding.progressBar.visibility = View.GONE
+        binding.watchOnYoutube.visibility = View.GONE
+
+        showDialog()
     }
 }

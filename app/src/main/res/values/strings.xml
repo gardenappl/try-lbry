@@ -7,5 +7,6 @@
     <string name="dialog_found_youtube_video">This video is available on LBRY!</string>
     <string name="dialog_found_youtube_channel">This channel is available on LBRY!</string>
     <string name="dialog_error">Error while checking LBRY availability</string>
+    <string name="dialog_error_wrong_url">This is not a YouTube video or channel URL:\n%s</string>
     <string name="open_youtube">Select app for YouTube:</string>
 </resources>
