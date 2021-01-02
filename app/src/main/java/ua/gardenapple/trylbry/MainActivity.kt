@@ -28,9 +28,11 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     private enum class ContentType {
         VIDEO, CHANNEL
     }
-    
+
     private lateinit var lbryUri: Uri
     private lateinit var binding: DialogMainBinding
+
+    private var lbryCheckDone = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -86,12 +88,14 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
             if (id.isEmpty())
                 id = getChannelId(URL(youtubeUrl))
 
-            val lbryChannel = resolveYoutube(id, contentType)
-            if (lbryChannel == null) {
+            val lbryUrlString = resolveYoutube(id, contentType)
+            lbryCheckDone = true
+
+            if (lbryUrlString == null) {
                 startYoutubeActivity()
                 finish()
             } else {
-                lbryUri = Uri.parse("$OPEN_LBRY_COM/${lbryChannel.replace('#', ':')}")
+                lbryUri = Uri.parse("$OPEN_LBRY_COM/${lbryUrlString.replace('#', ':')}")
 
                 binding.watchOnLbry.visibility = View.VISIBLE
                 binding.message.text = resources.getString(when (contentType) {
@@ -99,7 +103,15 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                     ContentType.CHANNEL -> R.string.dialog_found_youtube_channel
                 })
                 binding.progressBar.visibility = View.GONE
+
+                binding.root.visibility = View.VISIBLE
             }
+        }
+
+        launch {
+            delay(1000)
+            if (!lbryCheckDone)
+                binding.root.visibility = View.VISIBLE
         }
     }
 

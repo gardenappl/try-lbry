@@ -1,21 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
+<!-- Layout is invisible by default -->
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:theme="@style/Theme.TryLBRY"
+    android:visibility="gone"
     tools:context=".MainActivity"
-    android:theme="@style/Theme.TryLBRY" >
+    tools:visibility="visible">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:text="@string/app_name"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
+        android:textSize="18sp" />
 
     <TextView
         android:id="@+id/message"
         android:layout_width="200sp"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:gravity="center_horizontal"
-        android:text="Placeholder text, checking if this content is on LBRY..."
-        android:textSize="18sp" />
+        android:layout_marginStart="15sp"
+        android:layout_marginLeft="15sp"
+        android:layout_marginEnd="15sp"
+        android:layout_marginRight="15sp"
+        android:layout_marginBottom="10sp"
+        android:gravity="fill_horizontal"
+        android:text="Placeholder text, checking if this content is on LBRY..." />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -47,6 +65,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@android:string/cancel"
-        android:textColor="?colorPrimary"/>
+        android:textColor="?colorPrimary" />
 
 </LinearLayout>
