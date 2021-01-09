@@ -6,6 +6,6 @@ Either click on a YouTube URL or use the "Share" feature to "send" a link to thi
 
 Uses the lbry.com API. If you want similar functionality for your web browser, use "[Watch on LBRY](https://github.com/LBRYFoundation/Watch-on-LBRY)".
 
-![Redirecting from browser](fastlane/metadata/android/en-US/phoneScreenshots/01-youtube)
+![Redirecting from browser](fastlane/metadata/android/en-US/images/phoneScreenshots/01-youtube.jpg)
 
-![Redirecting from NewPipe](fastlane/metadata/android/en-US/phoneScreenshots/02-newpipe)
+![Redirecting from NewPipe](fastlane/metadata/android/en-US/images/phoneScreenshots/02-newpipe.jpg)
