@@ -1,0 +1,8 @@
+When you open a YouTube link, this app will check if this content is available on LBRY. You then get to choose whether to open it with the LBRY app or with YouTube.
+
+• Works on videos as well as channels
+• Either click a YouTube URL, or use the "Share" functionality
+• Works with every channel which uses the LBRY Sync program 
+• Free and open-source software, see code here: https://gitlab.com/gardenappl/try-lbry
+
+This app is not affiliated with LBRY Inc. or the LBRY Foundation. Read more about LBRY on https://lbry.com
