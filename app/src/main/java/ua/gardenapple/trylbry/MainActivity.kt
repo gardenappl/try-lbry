@@ -31,7 +31,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         private val channelNamePattern = Regex("""/(?:c|user)/([^?/]*)""")
         
         private val htmlChannelIdPattern =
-                Regex("""(?:"|\\x22)externalId(?:"|\\x22):(?:"|\\x22)([^"]*)(?:"|x22)""")
+                Regex("""(?:"|\\x22)externalId(?:"|\\x22):(?:"|\\x22)(.*?)(?:"|\\x22)""")
     }
     
     private enum class ContentType {
@@ -120,11 +120,11 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                     id = getChannelId(URL(youtubeUrlString))
 
                 val lbryUrlString = resolveYoutube(id, contentType)
-                lbryCheckDone = true
 
                 if (lbryUrlString == null) {
                     startYoutubeActivity(youtubeUri)
                     finish()
+                    return@launch
                 } else {
                     lbryUri = Uri.parse(
                             "$OPEN_LBRY_COM/${lbryUrlString.replace('#', ':')}"
@@ -136,8 +136,6 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                         ContentType.CHANNEL -> R.string.dialog_found_youtube_channel
                     })
                     binding.progressBar.visibility = View.GONE
-
-                    showDialog()
                 }
 //            } catch (e: UnknownHostException) {
 //                //no internet, let YouTube app show an error
@@ -150,7 +148,8 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
                 binding.message.text = resources.getString(R.string.dialog_error)
                 binding.progressBar.visibility = View.GONE
-
+            } finally {
+                lbryCheckDone = true
                 showDialog()
             }
         }
@@ -211,8 +210,9 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         //using a regex on the whole document is a bad idea
         var startPos = channelHtml.indexOf("\"externalId\"") - 10
         if (startPos < 0)
-            startPos = channelHtml.indexOf("\\x22externalId\\x22")
+            startPos = channelHtml.indexOf("\\x22externalId\\x22") - 10
         val match = htmlChannelIdPattern.find(channelHtml, startPos)
+        Log.d(LOGGING_TAG, match!!.groupValues[1])
         return match!!.groupValues[1]
     }
 
