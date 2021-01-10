@@ -6,3 +6,5 @@ When you open a YouTube link, this app will check if this content is available o
 • Free and open-source software, see code here: https://gitlab.com/gardenappl/try-lbry
 
 This app is not affiliated with LBRY Inc. or the LBRY Foundation. Read more about LBRY on https://lbry.com
+
+Non-Free Network Services: This app might make network connections to YouTube in order to scan a channel's ID. It also relies on the API provided by the LBRY x YouTube Sync service, which is run by LBRY Inc. Of course, the LBRY protocol itself is completely decentralized and open source.
