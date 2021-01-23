@@ -9,9 +9,9 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:theme="@style/Theme.TryLBRY"
+    android:theme="@style/Theme.TryLBRYDialog"
     android:visibility="gone"
-    tools:context=".MainActivity"
+    tools:context=".DialogActivity"
     tools:visibility="visible">
 
     <TextView

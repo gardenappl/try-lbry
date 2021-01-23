@@ -1,9 +1,22 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <style name="Theme.TryLBRY" parent="Theme.AppCompat.DayNight.Dialog">
+    <style name="Theme.TryLBRYDialog" parent="Theme.AppCompat.DayNight.Dialog">
         <item name="colorPrimary">@color/lbryDark</item>
         <item name="colorSecondary">@color/youtube</item>
+        <item name="colorAccent">?colorPrimary</item>
 
         <item name="windowNoTitle">true</item>
         <item name="android:backgroundDimEnabled">false</item>
+    </style>
+    <style name="Theme.TryLBRY" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/lbryDark</item>
+        <item name="colorSecondary">@color/youtube</item>
+        <item name="colorAccent">?colorPrimary</item>
+
+        <item name="android:statusBarColor" tools:targetApi="lollipop">?colorPrimary</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">false</item>
+        <item name="actionBarStyle">@style/Theme.TryLBRYActionBar</item>
+    </style>
+    <style name="Theme.TryLBRYActionBar" parent="ThemeOverlay.MaterialComponents.ActionBar">
+        <item name="android:textColorPrimary">@android:color/white</item>
     </style>
 </resources>
