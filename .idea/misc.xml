@@ -3,7 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../windows/Yurik/code/android/trylbry/app/src/main/res/drawable/ic_baseline_help_24.xml" value="0.1171875" />
         <entry key="../../../windows/Yurik/code/android/trylbry/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="../../../windows/Yurik/code/android/trylbry/app/src/main/res/layout/dialog_intent_chooser.xml" value="0.30647709320695105" />
+        <entry key="../../../windows/Yurik/code/android/trylbry/app/src/main/res/layout/dialog_intent_chooser_element.xml" value="0.33" />
         <entry key="../../../windows/Yurik/code/android/trylbry/app/src/main/res/layout/dialog_main.xml" value="0.25" />
       </map>
     </option>

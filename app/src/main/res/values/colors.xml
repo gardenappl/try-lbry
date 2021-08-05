@@ -5,4 +5,5 @@
     <color name="youtube">#ff0000</color>
     
     <color name="lbry">@color/lbryDark</color>
+    <color name="toolbarIconColor">#fff</color>
 </resources>

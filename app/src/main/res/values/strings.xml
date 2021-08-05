@@ -13,4 +13,5 @@
     <string name="open_youtube">Select app for YouTube:</string>
     <string name="activity_prompt_url">YouTube video or channel link</string>
     <string name="activity_desc">Let\'s see if your favorite YouTube content is available on LBRY</string>
+    <string name="help_what_is_lbry">What is LBRY?</string>
 </resources>

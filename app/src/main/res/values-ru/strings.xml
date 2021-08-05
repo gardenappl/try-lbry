@@ -14,4 +14,5 @@
     <string name="activity_error_wrong_url">Это не ссылка на видео или канал YouTube</string>
     <string name="activity_prompt_url">Ссылка на видео или канал YouTube</string>
     <string name="activity_desc">Посмотрим, доступен ли ваш любимый контент на LBRY</string>
+    <string name="help_what_is_lbry">Что такое LBRY?</string>
 </resources>

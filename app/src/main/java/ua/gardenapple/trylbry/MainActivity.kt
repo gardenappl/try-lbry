@@ -1,9 +1,15 @@
 package ua.gardenapple.trylbry
 
+import android.content.Intent
+import android.content.res.ColorStateList
+import android.content.res.Configuration
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.webkit.URLUtil
 import androidx.appcompat.app.AppCompatActivity
@@ -101,5 +107,18 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     override fun onDestroy() {
         super.onDestroy()
         cancel()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menu.add(R.string.help_what_is_lbry).apply {
+            setIcon(R.drawable.ic_baseline_help_24)
+            setOnMenuItemClickListener click@{
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://lbry.com/"))
+                startActivity(intent)
+                return@click true
+            }
+            setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
+        }
+        return true
     }
 }
