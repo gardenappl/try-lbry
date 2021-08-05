@@ -14,9 +14,12 @@ object ContentIntents {
         context.startActivity(intent)
     }
 
-    fun startYoutubeActivity(context: Context, youtubeUrl: Uri) {
+    fun startYoutubeActivity(context: Context, youtubeUrl: Uri, lbryNotFoundMessage: Boolean) {
         val intent = Intent(Intent.ACTION_VIEW, youtubeUrl)
-        val chooser = Intent.createChooser(intent, context.getString(R.string.open_youtube))
+        val chooser = Intent.createChooser(intent, if (lbryNotFoundMessage)
+            context.getString(R.string.youtube_not_found)
+        else
+            context.getString(R.string.open_youtube))
         context.startActivity(chooser)
     }
 }

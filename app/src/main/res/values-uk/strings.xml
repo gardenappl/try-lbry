@@ -8,8 +8,10 @@
     <string name="dialog_found_youtube_video">Це відео доступне на LBRY!</string>
     <string name="dialog_found_youtube_channel">Цей канал доступний на LBRY!</string>
     <string name="open_youtube">Оберіть додаток для YouTube:</string>
+    <string name="youtube_not_found">Не знайдено на LBRY, поки скористайтесь YouTube:</string>
     <string name="dialog_error">Помилка під час перевірки доступності на LBRY</string>
     <string name="dialog_error_wrong_url">Це не є посиланням на відео чи канал YouTube:\n%s</string>
+    <string name="activity_error_wrong_url">Це не є посиланням на відео чи канал YouTube</string>
     <string name="activity_prompt_url">Посилання на відео чи канал YouTube</string>
     <string name="activity_desc">Подивимося, чи доступний ваш улюблений YouTube контент на LBRY</string>
 </resources>

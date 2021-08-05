@@ -50,7 +50,7 @@ class DialogActivity : AppCompatActivity(), CoroutineScope by MainScope() {
             else -> throw IllegalArgumentException("Can't handle intent")
         }
         val content = LbryYoutubeChecker.getContentQuick(youtubeUrlString)
-        Log.d(LOGGING_TAG, "Content: $content")
+//        Log.d(LOGGING_TAG, "Content: $content")
 
         if (content == null) {
             showDialogInvalidUrl(youtubeUrlString)
@@ -64,7 +64,7 @@ class DialogActivity : AppCompatActivity(), CoroutineScope by MainScope() {
             }
         )
         binding.watchOnYoutube.setOnClickListener {
-            ContentIntents.startYoutubeActivity(this, youtubeUri)
+            ContentIntents.startYoutubeActivity(this, youtubeUri, false)
             finish()
         }
 
@@ -73,7 +73,7 @@ class DialogActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                 val lbryUrlString = LbryYoutubeChecker.getLbryUrl(content)
 
                 if (lbryUrlString == null) {
-                    ContentIntents.startYoutubeActivity(this@DialogActivity, youtubeUri)
+                    ContentIntents.startYoutubeActivity(this@DialogActivity, youtubeUri, true)
                     finish()
                     return@launch
                 } else {
@@ -111,7 +111,6 @@ class DialogActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
     override fun onDestroy() {
         super.onDestroy()
-
         cancel()
     }
     
