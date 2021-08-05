@@ -32,7 +32,7 @@ object LbryYoutubeChecker {
         }
         //We don't know the ID without doing some parsing...
         if (channelNamePattern.containsMatchIn(youtubeUrl))
-            return Content(ContentType.VIDEO, youtubeUrl)
+            return Content(ContentType.CHANNEL, youtubeUrl)
 
         return null
     }
