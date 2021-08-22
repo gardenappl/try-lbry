@@ -9,8 +9,7 @@ import java.net.URLEncoder
 import javax.net.ssl.HttpsURLConnection
 
 object LbryYoutubeChecker {
-    private val videoIdPattern = Regex("""[/?]v[=/]([^&/?]*)""")
-    private val videoIdPatternShort = Regex("""https?://youtu\.be/([^?/]*)""")
+    private val videoIdPattern = Regex("""(?:youtu\.be/|/embed/|/v/|\?v=)([^&/?]*)""")
     private val channelIdPattern = Regex("""/channel/([^?/]*)""")
     private val channelNamePattern = Regex("""/(?:c|user)/([^?/]*)""")
 
@@ -22,9 +21,6 @@ object LbryYoutubeChecker {
 
     fun getContentQuick(youtubeUrl: String): Content? {
         videoIdPattern.find(youtubeUrl)?.let { match ->
-            return@getContentQuick Content(ContentType.VIDEO, youtubeUrl, match.groupValues[1])
-        }
-        videoIdPatternShort.find(youtubeUrl)?.let { match ->
             return@getContentQuick Content(ContentType.VIDEO, youtubeUrl, match.groupValues[1])
         }
         channelIdPattern.find(youtubeUrl)?.let { match ->
