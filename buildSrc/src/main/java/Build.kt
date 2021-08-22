@@ -4,10 +4,9 @@ object Build {
         const val minSdk = 16
         const val targetSdk = 30
 
-        const val versionCode = 5
-        const val versionName = "1.1.0"
+        const val versionCode = 6
+        const val versionName = "1.1.1"
     }
-
 
     object Versions {
         const val gradle = "7.0.0"
