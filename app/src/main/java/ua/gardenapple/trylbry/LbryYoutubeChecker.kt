@@ -9,7 +9,7 @@ import java.net.URLEncoder
 import javax.net.ssl.HttpsURLConnection
 
 object LbryYoutubeChecker {
-    private val videoIdPattern = Regex("""(?:youtu\.be/|/embed/|/v/|\?v=)([^&/?]*)""")
+    private val videoIdPattern = Regex("""(?:youtu\.be/|/embed/|/v/|/shorts/|\?v=)([^&/?]*)""")
     private val channelIdPattern = Regex("""/channel/([^?/]*)""")
     private val channelNamePattern = Regex("""/(?:c|user)/([^?/]*)""")
 
