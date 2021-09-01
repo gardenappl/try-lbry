@@ -12,7 +12,6 @@
           <set>
             <option value="$USER_HOME$/windows/Yurik/code/android/trylbry" />
             <option value="$USER_HOME$/windows/Yurik/code/android/trylbry/app" />
-            <option value="$USER_HOME$/windows/Yurik/code/android/trylbry/buildSrc" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

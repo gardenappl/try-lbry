@@ -4,15 +4,16 @@ plugins {
 }
 
 android {
-    compileSdk = Build.Android.compileSdk
+    compileSdk = 29
 
     defaultConfig {
         applicationId = "ua.gardenapple.trylbry"
-        minSdk = Build.Android.minSdk
-        targetSdk = Build.Android.targetSdk
-        versionCode = Build.Android.versionCode
-        versionName = Build.Android.versionName
+        minSdk = 16
+        targetSdk = 30
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
+        versionCode = 7
+        versionName = "1.1.2"
     }
 
     buildTypes {
@@ -34,8 +35,8 @@ android {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:${Build.Versions.kotlin}")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.3")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.5.21")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.5.0")
 
     implementation("androidx.core:core-ktx:1.6.0")
     implementation("androidx.appcompat:appcompat:1.3.1")
