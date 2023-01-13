@@ -1,4 +1,4 @@
-package ua.gardenapple.trylbry
+package garden.appl.trylbry
 
 import android.content.Context
 import android.content.Intent

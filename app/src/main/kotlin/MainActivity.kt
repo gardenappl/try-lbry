@@ -1,4 +1,4 @@
-package ua.gardenapple.trylbry
+package garden.appl.trylbry
 
 import android.content.Intent
 import android.content.res.ColorStateList
@@ -19,7 +19,7 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
-import ua.gardenapple.trylbry.databinding.ActivityMainBinding
+import garden.appl.trylbry.databinding.ActivityMainBinding
 import java.io.IOException
 
 class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {

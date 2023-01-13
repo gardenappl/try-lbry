@@ -1,4 +1,4 @@
-package ua.gardenapple.trylbry
+package garden.appl.trylbry
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

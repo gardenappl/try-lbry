@@ -3,6 +3,10 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="../../../../../mnt/wind/Yurik/code/android/trylbry/app/src/main/res/layout/activity_intent_chooser.xml" value="0.33" />
+        <entry key="../../../../../mnt/wind/Yurik/code/android/trylbry/app/src/main/res/layout/activity_main.xml" value="0.4777777777777778" />
+        <entry key="../../../../../mnt/wind/Yurik/code/android/trylbry/app/src/main/res/layout/dialog_main.xml" value="0.5" />
+        <entry key="../../../../../mnt/wind/Yurik/code/android/trylbry/app/src/main/res/layout/widget_intent.xml" value="0.209375" />
         <entry key="../../../windows/Yurik/code/android/trylbry/app/src/main/res/drawable/ic_baseline_help_24.xml" value="0.1171875" />
         <entry key="../../../windows/Yurik/code/android/trylbry/app/src/main/res/layout/activity_main.xml" value="0.25" />
         <entry key="../../../windows/Yurik/code/android/trylbry/app/src/main/res/layout/dialog_intent_chooser.xml" value="0.30647709320695105" />
@@ -11,7 +15,7 @@
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="JDK" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

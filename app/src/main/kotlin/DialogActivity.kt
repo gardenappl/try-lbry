@@ -1,4 +1,4 @@
-package ua.gardenapple.trylbry
+package garden.appl.trylbry
 
 import android.content.Intent
 import android.net.Uri
@@ -10,7 +10,7 @@ import android.view.WindowManager
 import android.webkit.URLUtil
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.coroutines.*
-import ua.gardenapple.trylbry.databinding.DialogMainBinding
+import garden.appl.trylbry.databinding.DialogMainBinding
 
 class DialogActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     companion object {
