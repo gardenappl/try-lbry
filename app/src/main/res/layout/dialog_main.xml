@@ -57,7 +57,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/dialog_choice_youtube"
-        android:textColor="?colorSecondary" />
+        android:textColor="#DD2C00" />
 
     <Button
         android:id="@+id/cancelButton"
@@ -65,6 +65,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@android:string/cancel"
-        android:textColor="?colorPrimary" />
+        android:textColor="#00796B" />
 
 </LinearLayout>

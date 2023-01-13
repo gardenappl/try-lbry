@@ -103,7 +103,7 @@ class DialogActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         }
 
         launch {
-//            delay(1000)
+            delay(200)
             if (!lbryCheckDone)
                 showDialog()
         }
