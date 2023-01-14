@@ -9,11 +9,11 @@
     <string name="dialog_found_youtube_channel">Этот канал доступен на LBRY!</string>
     <string name="youtube_not_found">Не найдено на LBRY, пока используйте YouTube:</string>
     <string name="open_youtube">Выберите приложение для YouTube:</string>
-    <string name="open_lbry">Выберите приложение для LBRY:</string>
     <string name="dialog_error">Ошибка во время проверки наличия LBRY</string>
     <string name="dialog_error_wrong_url">Это не ссылка на видео или канал YouTube:\n%s</string>
     <string name="activity_error_wrong_url">Это не ссылка на видео или канал YouTube</string>
     <string name="activity_prompt_url">Ссылка на видео или канал YouTube</string>
     <string name="activity_desc">Посмотрим, доступен ли ваш любимый контент на LBRY</string>
     <string name="help_what_is_lbry">Что такое LBRY?</string>
+    <string name="clipboard_bad">В вашем буфере обмена нет ссылки на видео.</string>
 </resources>

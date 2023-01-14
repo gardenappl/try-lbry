@@ -1,5 +1,8 @@
 package garden.appl.trylbry
 
+import android.content.ClipDescription
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -8,6 +11,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.webkit.URLUtil
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import kotlinx.coroutines.CoroutineScope
@@ -23,6 +27,34 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
     private lateinit var binding: MainActivityBinding
 
+    private fun setInputLayoutClipboardIcon() {
+        binding.urlInputLayout.setEndIconDrawable(R.drawable.baseline_content_paste_24)
+
+        val clipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        binding.urlInputLayout.setEndIconOnClickListener {
+            val clipboardItem = clipboard.primaryClip?.getItemAt(0)
+                ?: return@setEndIconOnClickListener
+
+            val clipboardUriString = if (clipboardItem.text != null) {
+                clipboardItem.text.toString()
+            } else if (clipboardItem.uri != null
+                && clipboardItem.uri.scheme?.startsWith("http") == true) {
+
+                clipboardItem.uri.toString()
+            } else {
+                Toast.makeText(this, R.string.clipboard_bad, Toast.LENGTH_SHORT).show()
+                return@setEndIconOnClickListener
+            }
+
+            val content = LbryYoutubeChecker.getContentQuick(clipboardUriString)
+            if (content != null) {
+                binding.urlInput.setText(clipboardUriString)
+            } else {
+                Toast.makeText(this, R.string.clipboard_bad, Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -30,44 +62,50 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
 
+        setInputLayoutClipboardIcon()
+
         binding.urlInput.addTextChangedListener { editable ->
             val string = editable.toString().trim()
-            launch {
-                if (string.isEmpty()) {
-                    binding.urlInputLayout.error = null
-                    binding.progressBar.visibility = View.GONE
-                    binding.watchOnLbry.visibility = View.GONE
-                    binding.watchOnYoutube.visibility = View.GONE
-                    binding.message.setText(R.string.activity_desc)
-                    return@launch
-                }
-
-                val content = LbryYoutubeChecker.getContentQuick(string)
-
-                if (content == null || !URLUtil.isValidUrl(string)) {
-                    binding.urlInputLayout.error = getString(R.string.activity_error_wrong_url)
-                    binding.progressBar.visibility = View.GONE
-                    binding.watchOnLbry.visibility = View.GONE
-                    binding.watchOnYoutube.visibility = View.GONE
-                    binding.message.setText(R.string.activity_desc)
-                    return@launch
-                }
-
-                val youtubeUri = Uri.parse(string)
-
+            if (string.isEmpty()) {
+                setInputLayoutClipboardIcon()
                 binding.urlInputLayout.error = null
-                binding.progressBar.visibility = View.VISIBLE
-                binding.watchOnYoutube.setOnClickListener {
-                    IntentChooserActivity.start(this@MainActivity,
-                        youtubeUri, R.string.open_youtube)
-                }
-                binding.watchOnYoutube.visibility = View.VISIBLE
-                binding.message.setText(when (content.type) {
+                binding.progressBar.visibility = View.GONE
+                binding.watchOnLbry.visibility = View.GONE
+                binding.watchOnYoutube.visibility = View.GONE
+                binding.message.setText(R.string.activity_desc)
+                return@addTextChangedListener
+            }
+            binding.urlInputLayout.setEndIconDrawable(R.drawable.baseline_clear_24)
+            binding.urlInputLayout.setEndIconOnClickListener {
+                binding.urlInput.setText("")
+            }
+
+            val content = LbryYoutubeChecker.getContentQuick(string)
+
+            if (content == null || !URLUtil.isValidUrl(string)) {
+                binding.urlInputLayout.error = getString(R.string.activity_error_wrong_url)
+                binding.progressBar.visibility = View.GONE
+                binding.watchOnLbry.visibility = View.GONE
+                binding.watchOnYoutube.visibility = View.GONE
+                binding.message.setText(R.string.activity_desc)
+                return@addTextChangedListener
+            }
+
+            binding.urlInputLayout.error = null
+            binding.progressBar.visibility = View.VISIBLE
+            binding.watchOnYoutube.setOnClickListener {
+                ContentIntents.startYoutubeActivity(this@MainActivity, content, false)
+            }
+            binding.watchOnYoutube.visibility = View.VISIBLE
+            binding.message.setText(
+                when (content.type) {
                     ContentType.VIDEO -> R.string.dialog_checking_youtube_video
                     ContentType.CHANNEL -> R.string.dialog_checking_youtube_channel
-                })
+                }
+            )
 
 
+            launch {
                 try {
                     val lbryName = LbryYoutubeChecker.getLbryName(content)
 
