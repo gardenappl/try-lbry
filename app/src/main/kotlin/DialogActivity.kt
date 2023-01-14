@@ -10,21 +10,21 @@ import android.view.WindowManager
 import android.webkit.URLUtil
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.coroutines.*
-import garden.appl.trylbry.databinding.DialogMainBinding
+import garden.appl.trylbry.databinding.DialogActivityBinding
 
 class DialogActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     companion object {
         private const val LOGGING_TAG = "LbryCheckDialog"
     }
 
-    private lateinit var binding: DialogMainBinding
+    private lateinit var binding: DialogActivityBinding
 
     private var lbryCheckDone = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = DialogMainBinding.inflate(layoutInflater)
+        binding = DialogActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         binding.cancelButton.setOnClickListener {
@@ -64,21 +64,22 @@ class DialogActivity : AppCompatActivity(), CoroutineScope by MainScope() {
             }
         )
         binding.watchOnYoutube.setOnClickListener {
-            ContentIntents.startYoutubeActivity(this, youtubeUri, false)
+            IntentChooserActivity.start(this, youtubeUri, R.string.open_youtube)
             finish()
         }
 
         launch {
-            try {
-                val lbryUrlString = LbryYoutubeChecker.getLbryUrl(content)
+            val lbryName = LbryYoutubeChecker.getLbryName(content)
 
-                if (lbryUrlString == null) {
-                    ContentIntents.startYoutubeActivity(this@DialogActivity, youtubeUri, true)
+            try {
+                if (lbryName == null) {
+                    IntentChooserActivity.start(this@DialogActivity,
+                        youtubeUri, R.string.open_youtube)
                     finish()
-                    return@launch
                 } else {
                     binding.watchOnLbry.setOnClickListener {
-                        ContentIntents.startLbryActivity(this@DialogActivity, lbryUrlString)
+                        IntentChooserActivity.start(this@DialogActivity,
+                            Utils.lbryNameToUri(lbryName), R.string.open_lbry)
                         finish()
                     }
 

@@ -68,23 +68,24 @@
                 <data android:pathPrefix="/" />
             </intent-filter>
         </activity>
+        <activity android:name=".IntentChooserActivity" />
     </application>
     <queries>
         <intent>
             <action android:name="android.intent.action.VIEW" />
-            <data android:host="youtube.com" />
+            <data android:host="youtube.com" android:scheme="https" />
         </intent>
         <intent>
             <action android:name="android.intent.action.VIEW" />
-            <data android:host="*.youtube.com" />
+            <data android:host="*.youtube.com" android:scheme="https" />
         </intent>
         <intent>
             <action android:name="android.intent.action.VIEW" />
-            <data android:host="youtu.be" />
+            <data android:host="youtu.be" android:scheme="https" />
         </intent>
         <intent>
             <action android:name="android.intent.action.VIEW" />
-            <data android:host="odysee.com" />
+            <data android:host="odysee.com" android:scheme="https" />
         </intent>
         <intent>
             <action android:name="android.intent.action.VIEW" />

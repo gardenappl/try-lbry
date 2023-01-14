@@ -2,7 +2,6 @@ package garden.appl.trylbry
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import org.json.JSONException
 import org.json.JSONObject
 import java.net.URL
 import java.net.URLEncoder
@@ -50,7 +49,7 @@ object LbryYoutubeChecker {
         return match!!.groupValues[1]
     }
 
-    suspend fun getLbryUrl(content: Content): String? {
+    suspend fun getLbryName(content: Content): String? {
         if (content.id == null && channelNamePattern.containsMatchIn(content.originalUrl))
             content.id = getChannelId(URL(content.originalUrl))
 

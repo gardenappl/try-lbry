@@ -1,38 +1,32 @@
 package garden.appl.trylbry
 
 import android.content.Intent
-import android.content.res.ColorStateList
-import android.content.res.Configuration
-import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
-import android.view.MenuInflater
 import android.view.MenuItem
 import android.view.View
 import android.webkit.URLUtil
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
-import garden.appl.trylbry.databinding.ActivityMainBinding
-import java.io.IOException
+import garden.appl.trylbry.databinding.MainActivityBinding
 
 class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
     companion object {
         private const val LOGGING_TAG = "MainActivity"
     }
 
-    private lateinit var binding: ActivityMainBinding
+    private lateinit var binding: MainActivityBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        binding = MainActivityBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
 
@@ -64,7 +58,8 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                 binding.urlInputLayout.error = null
                 binding.progressBar.visibility = View.VISIBLE
                 binding.watchOnYoutube.setOnClickListener {
-                    ContentIntents.startYoutubeActivity(this@MainActivity, youtubeUri, false)
+                    IntentChooserActivity.start(this@MainActivity,
+                        youtubeUri, R.string.open_youtube)
                 }
                 binding.watchOnYoutube.visibility = View.VISIBLE
                 binding.message.setText(when (content.type) {
@@ -74,15 +69,16 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
 
                 try {
-                    val lbryUrl = LbryYoutubeChecker.getLbryUrl(content)
+                    val lbryName = LbryYoutubeChecker.getLbryName(content)
 
                     binding.progressBar.visibility = View.GONE
-                    if (lbryUrl == null) {
+                    if (lbryName == null) {
                         binding.watchOnLbry.visibility = View.GONE
                         binding.message.setText(R.string.youtube_not_found)
                     } else {
                         binding.watchOnLbry.setOnClickListener {
-                            ContentIntents.startLbryActivity(this@MainActivity, lbryUrl)
+                            IntentChooserActivity.start(this@MainActivity,
+                                Utils.lbryNameToUri(lbryName), R.string.open_lbry)
                         }
                         binding.watchOnLbry.visibility = View.VISIBLE
 
