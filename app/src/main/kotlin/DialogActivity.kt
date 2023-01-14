@@ -64,7 +64,7 @@ class DialogActivity : AppCompatActivity(), CoroutineScope by MainScope() {
             }
         )
         binding.watchOnYoutube.setOnClickListener {
-            IntentChooserActivity.start(this, youtubeUri, R.string.open_youtube)
+            ContentIntents.startYoutubeActivity(this, content, false)
             finish()
         }
 
@@ -73,13 +73,11 @@ class DialogActivity : AppCompatActivity(), CoroutineScope by MainScope() {
 
             try {
                 if (lbryName == null) {
-                    IntentChooserActivity.start(this@DialogActivity,
-                        youtubeUri, R.string.open_youtube)
+                    ContentIntents.startYoutubeActivity(this@DialogActivity, content, true)
                     finish()
                 } else {
                     binding.watchOnLbry.setOnClickListener {
-                        IntentChooserActivity.start(this@DialogActivity,
-                            Utils.lbryNameToUri(lbryName), R.string.open_lbry)
+                        ContentIntents.startLbryActivity(this@DialogActivity, lbryName)
                         finish()
                     }
 

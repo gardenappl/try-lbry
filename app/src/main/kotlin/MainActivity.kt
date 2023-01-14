@@ -77,8 +77,7 @@ class MainActivity : AppCompatActivity(), CoroutineScope by MainScope() {
                         binding.message.setText(R.string.youtube_not_found)
                     } else {
                         binding.watchOnLbry.setOnClickListener {
-                            IntentChooserActivity.start(this@MainActivity,
-                                Utils.lbryNameToUri(lbryName), R.string.open_lbry)
+                            ContentIntents.startLbryActivity(this@MainActivity, lbryName)
                         }
                         binding.watchOnLbry.visibility = View.VISIBLE
 
